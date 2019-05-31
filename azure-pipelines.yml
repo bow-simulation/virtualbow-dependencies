@@ -8,3 +8,12 @@ jobs:
       .\bootstrap-vcpkg.bat
       .\vcpkg install boost catch2 eigen3 nlohmann-json qt5-base --triplet x86-windows-static
       .\vcpkg export boost catch2 eigen3 nlohmann-json qt5-base
+- job: Win64
+  pool:
+    vmImage: 'vs2015-win2012r2'
+  steps:
+  - script: |
+      git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
+      .\bootstrap-vcpkg.bat
+      .\vcpkg install boost catch2 eigen3 nlohmann-json qt5-base --triplet x64-windows-static
+      .\vcpkg export boost catch2 eigen3 nlohmann-json qt5-base
