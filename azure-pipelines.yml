@@ -6,7 +6,8 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
+      git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
+      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0 -- ports/qt5-base
       call .\bootstrap-vcpkg.bat
       call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x86-windows-static
       call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --zip --output="vcpkg-export-x86-windows-static"
@@ -22,7 +23,8 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
+      git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
+      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0 -- ports/qt5-base
       call .\bootstrap-vcpkg.bat
       call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-windows-static
       call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --zip --output="vcpkg-export-x64-windows-static"
@@ -34,11 +36,11 @@ jobs:
 - job: MacOS
   timeoutInMinutes: 0
   pool:
-    vmImage: 'macOS-10.13'
+    vmImage: 'macOS-10.14'
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
+      git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
       ./bootstrap-vcpkg.sh
       ./vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-osx
       ./vcpkg export boost catch2 eigen3 nlohmann-json --zip --output="vcpkg-export-x64-osx"
@@ -54,7 +56,7 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
+      git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
       ./bootstrap-vcpkg.sh
       ./vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-linux
       ./vcpkg export boost catch2 eigen3 nlohmann-json --zip --output="vcpkg-export-x64-linux"
