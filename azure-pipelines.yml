@@ -7,4 +7,8 @@ jobs:
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
       call .\bootstrap-vcpkg.bat
       call .\vcpkg install boost catch2 eigen3 nlohmann-json qt5-base --triplet x86-windows-static
-      call .\vcpkg export boost catch2 eigen3 nlohmann-json qt5-base
+      call .\vcpkg export boost catch2 eigen3 nlohmann-json qt5-base --output="vcpkg-export-x86-windows-static"
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'vcpkg/vcpkg-export-x86-windows-static.zip'
+      artifactName: 'Win32_Artifacts'
