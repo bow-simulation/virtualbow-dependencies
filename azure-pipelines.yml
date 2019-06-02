@@ -9,7 +9,7 @@ jobs:
       git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773
       call .\bootstrap-vcpkg.bat
       call .\vcpkg install boost --triplet x86-windows-static
-      call .\vcpkg export boost --zip --output="vcpkg-export-x86-windows-static"
+      call .\vcpkg export boost --triplet x86-windows-static --zip --output="vcpkg-export-x86-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x86-windows-static.zip'
@@ -24,8 +24,8 @@ jobs:
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
       git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773
       call .\bootstrap-vcpkg.bat
-      call .\vcpkg install boost--triplet x64-windows-static
-      call .\vcpkg export boost --zip --output="vcpkg-export-x64-windows-static"
+      call .\vcpkg install boost --triplet x64-windows-static
+      call .\vcpkg export boost --triplet x86-windows-static --zip --output="vcpkg-export-x64-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x64-windows-static.zip'
@@ -37,11 +37,12 @@ jobs:
     vmImage: 'macOS-10.14'
   steps:
   - script: |
+      brew install --with-toolchain llvm
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
       git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
-      ./bootstrap-vcpkg.sh --allowAppleClang
+      ./bootstrap-vcpkg.sh
       ./vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-osx
-      ./vcpkg export boost catch2 eigen3 nlohmann-json --zip --output="vcpkg-export-x64-osx"
+      ./vcpkg export boost catch2 eigen3 nlohmann-json --triplet x64-osx --zip --output="vcpkg-export-x64-osx"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x64-osx.zip'
@@ -57,7 +58,7 @@ jobs:
       git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
       ./bootstrap-vcpkg.sh
       ./vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-linux
-      ./vcpkg export boost catch2 eigen3 nlohmann-json --zip --output="vcpkg-export-x64-linux"
+      ./vcpkg export boost catch2 eigen3 nlohmann-json --triplet x64-linux --zip --output="vcpkg-export-x64-linux"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x64-linux.zip'
