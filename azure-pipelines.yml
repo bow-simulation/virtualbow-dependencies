@@ -6,10 +6,12 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773
+      git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
+      git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773 -- ports/boost*
+      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0 -- ports/qt5-base      
       call .\bootstrap-vcpkg.bat
-      call .\vcpkg install boost --triplet x86-windows-static
-      call .\vcpkg export boost --triplet x86-windows-static --zip --output="vcpkg-export-x86-windows-static"
+      call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x86-windows-static
+      call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --triplet x86-windows-static --zip --output="vcpkg-export-x86-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x86-windows-static.zip'
@@ -22,10 +24,12 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773
+      git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
+      git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773 -- ports/boost*
+      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0 -- ports/qt5-base  
       call .\bootstrap-vcpkg.bat
-      call .\vcpkg install boost --triplet x64-windows-static
-      call .\vcpkg export boost --triplet x86-windows-static --zip --output="vcpkg-export-x64-windows-static"
+      call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-windows-static
+      call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-windows-static --zip --output="vcpkg-export-x64-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x64-windows-static.zip'
@@ -37,7 +41,7 @@ jobs:
     vmImage: 'macOS-10.14'
   steps:
   - script: |
-      brew install --with-toolchain llvm
+      brew install gcc6
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
       git checkout fb36b4e17c134796bf8e31bf908c2a0c6b2fefc4
       ./bootstrap-vcpkg.sh
