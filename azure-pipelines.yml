@@ -8,7 +8,8 @@ jobs:
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
       git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
       call .\bootstrap-vcpkg.bat
-      call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x86-windows-static --clean-after-build
+      call .\vcpkg install qt5-base --triplet x86-windows-static && rmdir buildtrees /s /q
+      call .\vcpkg install boost catch2 eigen3 nlohmann-json --triplet x86-windows-static
       call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --triplet x86-windows-static --zip --output="vcpkg-export-x86-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
@@ -24,7 +25,8 @@ jobs:
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
       git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
       call .\bootstrap-vcpkg.bat
-      call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-windows-static --clean-after-build
+      call .\vcpkg install qt5-base --triplet x64-windows-static && rmdir buildtrees /s /q
+      call .\vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-windows-static
       call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-windows-static --zip --output="vcpkg-export-x64-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
