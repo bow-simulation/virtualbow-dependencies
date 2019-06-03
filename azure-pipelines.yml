@@ -6,14 +6,10 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 64d6b21c78b2da474fa88b08c6abde86f7603ae5
-      call .\bootstrap-vcpkg.bat
-      call .\vcpkg install catch2 eigen3 nlohmann-json --triplet x86-windows-static --clean-after-build
-      git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773
-      call .\vcpkg install boost --triplet x86-windows-static --clean-after-build
       git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
-      call .\vcpkg install qt5-base --triplet x86-windows-static --clean-after-build
-      call .\vcpkg export boost qt5-base catch2 eigen3 nlohmann-json --triplet x86-windows-static --zip --output="vcpkg-export-x86-windows-static"
+      call .\bootstrap-vcpkg.bat
+      call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x86-windows-static --clean-after-build
+      call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --triplet x86-windows-static --zip --output="vcpkg-export-x86-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x86-windows-static.zip'
@@ -26,14 +22,10 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 64d6b21c78b2da474fa88b08c6abde86f7603ae5
-      call .\bootstrap-vcpkg.bat
-      call .\vcpkg install catch2 eigen3 nlohmann-json --triplet x64-windows-static --clean-after-build
-      git checkout 0e759709ddc7dbad0b881f9f068f1b04b2092773
-      call .\vcpkg install boost --triplet x64-windows-static --clean-after-build
       git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
-      call .\vcpkg install qt5-base --triplet x64-windows-static --clean-after-build
-      call .\vcpkg export boost qt5-base catch2 eigen3 nlohmann-json --triplet x64-windows-static --zip --output="vcpkg-export-x64-windows-static"
+      call .\bootstrap-vcpkg.bat
+      call .\vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-windows-static --clean-after-build
+      call .\vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-windows-static --zip --output="vcpkg-export-x64-windows-static"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x64-windows-static.zip'
