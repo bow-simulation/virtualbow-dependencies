@@ -6,7 +6,7 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
+      git checkout 8fe8cf468bb936d331fc72d0b388ed36a7e61dd0
       call .\bootstrap-vcpkg.bat
       call .\vcpkg install qt5-base --triplet x86-windows-static && rmdir buildtrees downloads /s /q
       call .\vcpkg install boost catch2 eigen3 nlohmann-json --triplet x86-windows-static && rmdir buildtrees downloads /s /q
@@ -23,7 +23,7 @@ jobs:
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 29be95a5e58d00ecd6ec85ff66171d0d3d19ccd0
+      git checkout 8fe8cf468bb936d331fc72d0b388ed36a7e61dd0
       call .\bootstrap-vcpkg.bat
       call .\vcpkg install qt5-base --triplet x64-windows-static && rmdir buildtrees downloads /s /q
       call .\vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-windows-static && rmdir buildtrees downloads /s /q
@@ -36,7 +36,7 @@ jobs:
 - job: MacOS
   timeoutInMinutes: 0
   pool:
-    vmImage: 'macOS-10.14'
+    vmImage: 'macOS-10.13'
   steps:
   - script: |
       brew install gcc6
