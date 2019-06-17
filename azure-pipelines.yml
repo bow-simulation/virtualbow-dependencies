@@ -2,7 +2,7 @@ jobs:
 - job: Win32
   timeoutInMinutes: 0
   pool:
-    vmImage: 'windows-2019'
+    vmImage: 'vs2017-win2016'
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
@@ -19,7 +19,7 @@ jobs:
 - job: Win64
   timeoutInMinutes: 0
   pool:
-    vmImage: 'windows-2019'
+    vmImage: 'vs2017-win2016'
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
