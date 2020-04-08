@@ -1,74 +1,77 @@
-jobs:
-- job: Win32
-  timeoutInMinutes: 0
-  pool:
-    vmImage: 'windows-2019'
-  steps:
-  - script: |
-      git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 9f327dc3b990224ba9c7eb7ee23a183a35c6aec1
-      call .\bootstrap-vcpkg.bat
-      .\vcpkg install qt5-base  --triplet x86-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install qt5-tools --triplet x86-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install boost --triplet x86-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install catch2 --triplet x86-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install eigen3 --triplet x86-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install nlohmann-json --triplet x86-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg export qt5-base qt5-tools boost catch2 eigen3 nlohmann-json --triplet x86-windows --zip --output="vcpkg-export-x86-windows"
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathToPublish: 'vcpkg/vcpkg-export-x86-windows.zip'
-      artifactName: 'Win32_Artifacts'
+#jobs:
+#- job: Win32
+#  timeoutInMinutes: 0
+#  pool:
+#    vmImage: 'windows-2019'
+#  steps:
+#  - script: |
+#      git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
+#      git checkout 9f327dc3b990224ba9c7eb7ee23a183a35c6aec1
+#      call .\bootstrap-vcpkg.bat
+#      .\vcpkg install qt5-base  --triplet x86-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install qt5-tools --triplet x86-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install boost --triplet x86-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install catch2 --triplet x86-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install eigen3 --triplet x86-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install nlohmann-json --triplet x86-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg export qt5-base qt5-tools boost catch2 eigen3 nlohmann-json --triplet x86-windows --zip --output="vcpkg-export-x86-windows"
+#  - task: PublishBuildArtifacts@1
+#    inputs:
+#      pathToPublish: 'vcpkg/vcpkg-export-x86-windows.zip'
+#      artifactName: 'Win32_Artifacts'
 
-- job: Win64
-  timeoutInMinutes: 0
-  pool:
-    vmImage: 'windows-2019'
-  steps:
-  - script: |
-      git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 9f327dc3b990224ba9c7eb7ee23a183a35c6aec1
-      call .\bootstrap-vcpkg.bat
-      .\vcpkg install qt5-base  --triplet x64-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install qt5-tools --triplet x64-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install boost --triplet x64-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install catch2 --triplet x64-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install eigen3 --triplet x64-windows && rmdir buildtrees downloads /s /q
-      .\vcpkg install nlohmann-json --triplet x64-windows && rmdir buildtrees downloads /s /q
-      call .\vcpkg export qt5-base qt5-tools boost catch2 eigen3 nlohmann-json --triplet x64-windows --zip --output="vcpkg-export-x64-windows"
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathToPublish: 'vcpkg/vcpkg-export-x64-windows.zip'
-      artifactName: 'Win64_Artifacts'
+#- job: Win64
+#  timeoutInMinutes: 0
+#  pool:
+#    vmImage: 'windows-2019'
+#  steps:
+#  - script: |
+#      git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
+#      git checkout 9f327dc3b990224ba9c7eb7ee23a183a35c6aec1
+#      call .\bootstrap-vcpkg.bat
+#      .\vcpkg install qt5-base  --triplet x64-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install qt5-tools --triplet x64-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install boost --triplet x64-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install catch2 --triplet x64-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install eigen3 --triplet x64-windows && rmdir buildtrees downloads /s /q
+#      .\vcpkg install nlohmann-json --triplet x64-windows && rmdir buildtrees downloads /s /q
+#      call .\vcpkg export qt5-base qt5-tools boost catch2 eigen3 nlohmann-json --triplet x64-windows --zip --output="vcpkg-export-x64-windows"
+#  - task: PublishBuildArtifacts@1
+#    inputs:
+#      pathToPublish: 'vcpkg/vcpkg-export-x64-windows.zip'
+#      artifactName: 'Win64_Artifacts'
 
-- job: MacOS
-  timeoutInMinutes: 0
-  pool:
-    vmImage: 'macOS-10.13'
-  steps:
-  - script: |
-      brew install gcc6
-      git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
-      git checkout 9238e93cc32555ad7c5239376d31796e949e16da
-      ./bootstrap-vcpkg.sh
-      ./vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-osx
-      ./vcpkg export boost catch2 eigen3 nlohmann-json --triplet x64-osx --zip --output="vcpkg-export-x64-osx"
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathToPublish: 'vcpkg/vcpkg-export-x64-osx.zip'
-      artifactName: 'MacOS_Artifacts'
+#- job: MacOS
+#  timeoutInMinutes: 0
+#  pool:
+#    vmImage: 'macOS-10.13'
+#  steps:
+#  - script: |
+#      brew install gcc6
+#      git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
+#      git checkout 9238e93cc32555ad7c5239376d31796e949e16da
+#      ./bootstrap-vcpkg.sh
+#      ./vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-osx
+#      ./vcpkg export boost catch2 eigen3 nlohmann-json --triplet x64-osx --zip --output="vcpkg-export-x64-osx"
+#  - task: PublishBuildArtifacts@1
+#    inputs:
+#      pathToPublish: 'vcpkg/vcpkg-export-x64-osx.zip'
+#      artifactName: 'MacOS_Artifacts'
 
 - job: Linux
   timeoutInMinutes: 0
   pool:
     vmImage: 'ubuntu-16.04'
+  variables:
+    CC: gcc-9
+    CXX: g++-9
   steps:
   - script: |
       git clone https://github.com/Microsoft/vcpkg.git && cd vcpkg
       git checkout 9f327dc3b990224ba9c7eb7ee23a183a35c6aec1
       ./bootstrap-vcpkg.sh
-      ./vcpkg install boost catch2 eigen3 nlohmann-json --triplet x64-linux
-      ./vcpkg export boost catch2 eigen3 nlohmann-json --triplet x64-linux --zip --output="vcpkg-export-x64-linux"
+      ./vcpkg install qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-linux
+      ./vcpkg export qt5-base boost catch2 eigen3 nlohmann-json --triplet x64-linux --zip --output="vcpkg-export-x64-linux"
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: 'vcpkg/vcpkg-export-x64-linux.zip'
