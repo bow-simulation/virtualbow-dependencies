@@ -57,7 +57,7 @@
 #    inputs:
 #      pathToPublish: 'vcpkg/vcpkg-export-x64-osx.zip'
 #      artifactName: 'MacOS_Artifacts'
-
+jobs:
 - job: Linux
   timeoutInMinutes: 0
   pool:
