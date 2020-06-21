@@ -1,10 +1,10 @@
 DOWNLOAD_URL=https://github.com/stevengj/nlopt/archive/v2.6.2.tar.gz
 INSTALL_DIR=nlopt-2.6.2
 
-wget -c $DOWNLOAD_URL -O - | tar -xz
+curl -L $DOWNLOAD_URL -O - | tar -xz
 mv nlopt-* source & mkdir build
 
-cmake -S source -B build -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=Release -DCMAKE_BUILD_SHARED_LIBS=OFF -DNLOPT_GUILE=OFF -DNLOPT_MATLAB=OFF -DNLOPT_OCTAVE=OFF -DNLOPT_PYTHON=OFF -DNLOPT_SWIG=OFF
+cmake -S source -B build -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DNLOPT_GUILE=OFF -DNLOPT_MATLAB=OFF -DNLOPT_OCTAVE=OFF -DNLOPT_PYTHON=OFF -DNLOPT_SWIG=OFF
 cmake --build build --target install
 
 rm -rf source build

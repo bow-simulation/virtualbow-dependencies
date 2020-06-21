@@ -4,7 +4,7 @@ INSTALL_DIR=catch-2.12.2
 curl -L $DOWNLOAD_URL | tar -xz
 mv Catch2-* source & mkdir build
 
-cmake -S source -B build -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=Release
+cmake -S source -B build -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_BUILD_TYPE=Release
 cmake --build build --target install
 
 rm -rf source build
