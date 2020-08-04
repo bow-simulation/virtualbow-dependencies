@@ -1,5 +1,5 @@
-DOWNLOAD_URL=https://github.com/nlohmann/json/archive/v3.7.3.tar.gz
-INSTALL_DIR=json-3.7.3
+DOWNLOAD_URL=https://github.com/nlohmann/json/archive/v3.9.0.tar.gz
+INSTALL_DIR=json-3.9.0
 
 curl -L $DOWNLOAD_URL | tar -xz
 mv json-* source & mkdir build

@@ -1,3 +1,3 @@
 # virtualbow-dependencies
 
-Dummy project for pre-built dependencies of VirtualBow.
+Build information and releases for the dependencies of VirtualBow.
