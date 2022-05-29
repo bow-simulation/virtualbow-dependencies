@@ -1,3 +1,3 @@
 # virtualbow-dependencies
 
-Build information and releases for the dependencies of VirtualBow.
+This project provides pre-built dependencies for [VirtualBow](https://github.com/bow-simulation/virtualbow).
