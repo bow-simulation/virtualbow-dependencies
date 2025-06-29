@@ -9,102 +9,70 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-2022
+    runs-on: windows-2025
     defaults:
       run:
         shell: bash
     steps:
       - name: Download Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
-          version: 5.15.2
-          arch: win64_mingw81
-          dir: output/windows-mingw_64
+          version: 6.8.3
+          dir: output/windows-msvc_64
 
-      - name: Download Boost
-        run: |
-          curl -L https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.gz | tar -xz
-          cd boost_1_79_0          
-          ./bootstrap.sh --prefix=../output/windows-mingw_64/boost-1.79.0
-          ./b2 --with-headers --prefix=../output/windows-mingw_64/boost-1.79.0 install
-          
-      - name: Download Eigen
-        run: |
-          curl -L https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz | tar -xz
-          mkdir eigen-build
-          cmake -S eigen-3.4.0 -B eigen-build -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=output/windows-mingw_64/eigen-3.4.0 -DCMAKE_BUILD_TYPE=Release
-          cmake --build eigen-build --target install
-          
       - name: Download Nlohmann-Json
         run: |
-          curl -L https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.tar.gz | tar -xz
+          curl -L https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz | tar -xz
           mkdir json-build
-          cmake -S json-3.10.5 -B json-build -G "MinGW Makefiles" -DJSON_BuildTests=OFF -DCMAKE_INSTALL_PREFIX=output/windows-mingw_64/json-3.10.5 -DCMAKE_BUILD_TYPE=Release
+          cmake -S json-3.12.0 -B json-build -G "MinGW Makefiles" -DJSON_BuildTests=OFF -DCMAKE_INSTALL_PREFIX=output/windows-msvc_64/json-3.12.0 -DCMAKE_BUILD_TYPE=Release
           cmake --build json-build --target install
 
       - name: Download Catch
         run: |
-          curl -L https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.9.tar.gz | tar -xz
+          curl -L https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.10.tar.gz | tar -xz
           mkdir catch-build
-          cmake -S Catch2-2.13.9 -B catch-build -G "MinGW Makefiles" -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=output/windows-mingw_64/catch-2.13.9 -DCMAKE_BUILD_TYPE=Release
+          cmake -S Catch2-2.13.10 -B catch-build -G "MinGW Makefiles" -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=output/windows-msvc_64/catch-2.13.10 -DCMAKE_BUILD_TYPE=Release
           cmake --build catch-build --target install
 
       - name: Write CMake file
         uses: frdrwrt/write-to-file@v1.3
         with:
-          filepath: output/windows-mingw_64/paths.cmake
+          filepath: output/windows-msvc_64/paths.cmake
           mode: 0666
           content: |
             set(
                 CMAKE_PREFIX_PATH
-                ${CMAKE_CURRENT_LIST_DIR}/Qt/5.15.2/mingw81_64/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/boost-1.79.0/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/catch-2.13.9/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/eigen-3.4.0/share/eigen3/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/json-3.10.5/lib/cmake
+                ${CMAKE_CURRENT_LIST_DIR}/Qt/6.8.3/msvc2022_64/lib/cmake
+                ${CMAKE_CURRENT_LIST_DIR}/catch-2.13.10/lib/cmake
+                ${CMAKE_CURRENT_LIST_DIR}/json-3.12.0/lib/cmake
             )
 
-      - uses: papeloto/action-zip@v1
+      - uses: vimtor/action-zip@v1
         with:
           files: output
-          dest: windows-mingw_64.zip
+          dest: windows-msvc_64.zip
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: windows-artifact
-          path: windows-mingw_64.zip
+          path: windows-msvc_64.zip
 
   build-linux:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-24.04
     steps:
-      - name: Download Boost
-        run: |
-          curl -L https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.gz | tar -xz
-          cd boost_1_79_0          
-          ./bootstrap.sh --prefix=../output/linux-gcc_64/boost-1.79.0
-          ./b2 --with-headers --prefix=../output/linux-gcc_64/boost-1.79.0 install
-          
-      - name: Download Eigen
-        run: |
-          curl -L https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz | tar -xz
-          mkdir eigen-build
-          cmake -S eigen-3.4.0 -B eigen-build -DCMAKE_INSTALL_PREFIX=output/linux-gcc_64/eigen-3.4.0 -DCMAKE_BUILD_TYPE=Release
-          cmake --build eigen-build --target install
-
       - name: Download Nlohmann-Json
         run: |
-          curl -L https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.tar.gz | tar -xz
+          curl -L https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz | tar -xz
           mkdir json-build
-          cmake -S json-3.10.5 -B json-build -DJSON_BuildTests=OFF -DCMAKE_INSTALL_PREFIX=output/linux-gcc_64/json-3.10.5 -DCMAKE_BUILD_TYPE=Release
+          cmake -S json-3.12.0 -B json-build -DJSON_BuildTests=OFF -DCMAKE_INSTALL_PREFIX=output/linux-gcc_64/json-3.12.0 -DCMAKE_BUILD_TYPE=Release
           cmake --build json-build --target install
           
       - name: Download Catch
         run: |
-          curl -L https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.9.tar.gz | tar -xz
+          curl -L https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.10.tar.gz | tar -xz
           mkdir catch-build
-          cmake -S Catch2-2.13.9 -B catch-build -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=output/linux-gcc_64/catch-2.13.9 -DCMAKE_BUILD_TYPE=Release
+          cmake -S Catch2-2.13.10 -B catch-build -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=output/linux-gcc_64/catch-2.13.10 -DCMAKE_BUILD_TYPE=Release
           cmake --build catch-build --target install
-
 
       - name: Write CMake file
         uses: frdrwrt/write-to-file@v1.3
@@ -114,57 +82,41 @@ jobs:
           content: |
             set(
                 CMAKE_PREFIX_PATH
-                ${CMAKE_CURRENT_LIST_DIR}/boost-1.79.0/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/catch-2.13.9/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/eigen-3.4.0/share/eigen3/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/json-3.10.5/lib/cmake
+                ${CMAKE_CURRENT_LIST_DIR}/catch-2.13.10/lib/cmake
+                ${CMAKE_CURRENT_LIST_DIR}/json-3.12.0/lib/cmake
             )
           
-      - uses: papeloto/action-zip@v1
+      - uses: vimtor/action-zip@v1
         with:
           files: output
           dest: linux-gcc_64.zip
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: linux-artifact
           path: linux-gcc_64.zip
 
   build-macos:
-    runs-on: macos-10.15
+    runs-on: macos-13
     steps:
       - name: Download Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
-          version: 5.15.2
+          version: 6.8.3
           dir: output/macos-clang_64
-
-      - name: Download Boost
-        run: |
-          curl -L https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.gz | tar -xz
-          cd boost_1_79_0          
-          ./bootstrap.sh --prefix=../output/macos-clang_64/boost-1.79.0
-          ./b2 --with-headers --prefix=../output/macos-clang_64/boost-1.79.0 install
-          
-      - name: Download Eigen
-        run: |
-          curl -L https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz | tar -xz
-          mkdir eigen-build
-          cmake -S eigen-3.4.0 -B eigen-build -DCMAKE_INSTALL_PREFIX=output/macos-clang_64/eigen-3.4.0 -DCMAKE_BUILD_TYPE=Release
-          cmake --build eigen-build --target install
 
       - name: Download Nlohmann-Json
         run: |
-          curl -L https://github.com/nlohmann/json/archive/refs/tags/v3.10.5.tar.gz | tar -xz
+          curl -L https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz | tar -xz
           mkdir json-build
-          cmake -S json-3.10.5 -B json-build -DJSON_BuildTests=OFF -DCMAKE_INSTALL_PREFIX=output/macos-clang_64/json-3.10.5 -DCMAKE_BUILD_TYPE=Release
+          cmake -S json-3.12.0 -B json-build -DJSON_BuildTests=OFF -DCMAKE_INSTALL_PREFIX=output/macos-clang_64/json-3.12.0 -DCMAKE_BUILD_TYPE=Release
           cmake --build json-build --target install
 
       - name: Download Catch
         run: |
-          curl -L https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.9.tar.gz | tar -xz
+          curl -L https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.10.tar.gz | tar -xz
           mkdir catch-build
-          cmake -S Catch2-2.13.9 -B catch-build -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=output/macos-clang_64/catch-2.13.9 -DCMAKE_BUILD_TYPE=Release
+          cmake -S Catch2-2.13.10 -B catch-build -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=output/macos-clang_64/catch-2.13.10 -DCMAKE_BUILD_TYPE=Release
           cmake --build catch-build --target install
 
       - name: Write CMake file
@@ -176,18 +128,16 @@ jobs:
             set(
                 CMAKE_PREFIX_PATH
                 ${CMAKE_CURRENT_LIST_DIR}/Qt/5.15.2/clang_64/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/boost-1.79.0/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/catch-2.13.9/lib/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/eigen-3.4.0/share/eigen3/cmake
-                ${CMAKE_CURRENT_LIST_DIR}/json-3.10.5/lib/cmake
+                ${CMAKE_CURRENT_LIST_DIR}/catch-2.13.10/lib/cmake
+                ${CMAKE_CURRENT_LIST_DIR}/json-3.12.0/lib/cmake
             )
 
-      - uses: papeloto/action-zip@v1
+      - uses: vimtor/action-zip@v1
         with:
           files: output
           dest: macos-clang_64.zip
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: macos-artifact
           path: macos-clang_64.zip
