@@ -97,7 +97,7 @@ jobs:
           path: linux-gcc_64.zip
 
   build-macos:
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - name: Download Qt
         uses: jurplel/install-qt-action@v4
@@ -189,3 +189,4 @@ jobs:
           draft: true
           files: |
             *.zip
+
